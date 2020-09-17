@@ -89,6 +89,7 @@ function woocommerce_faspay_init() {
 
 				if ( version_compare( WOOCOMMERCE_VERSION, '2.0.0', '>=' ) ){
 					// Actions
+
 					add_action('woocommerce_update_options_payment_gateways_' . $this->id, array(&$this, 'process_admin_options'));
 					//add_action('wp_enqueue_scripts','pe_fontawesome_local');
 					// add_action('woocommerce_available_payment_gateways', 'woocs_filter_gateways');
@@ -657,7 +658,7 @@ function woocommerce_faspay_init() {
 					$signature 	= sha1(md5($this->merchantCode.$this->merchantPass.$order_id));
 					$date_exp 	= date('Y-m-d H:i:s',strtotime($order->order_date.'+'.$this->settings['expdate'].' days'));
 					// Prepare Parameters
-					$channeldirect = array('302','305','401','700','701','307','709','406','807','814','812');
+					$channeldirect = array('302','305','401','700','701','307','709','406','807','814','812','713','819');
 
 					if ($this->payment_method == '405') {
 						$params = array(
@@ -845,7 +846,15 @@ function woocommerce_faspay_init() {
 										$this->log('Inquiry Success for order id ' . $order->get_order_number() . ' with trx id ' . $resp->trx_id);
 
 										// Redirect to payment page
-										$insert_trx = $wpdb->query("insert into ". $wpdb->prefix ."faspay_order (trx_id,order_id,date_expire,date_trx, total_amount, channel, status) values ('".$resp->trx_id."','$order_id','$date_exp', '".$order->order_date."', '".intval($order->order_total)."', '".$this->payment_method."','1')");
+										if (isset($resp->web_url)) { //shopee qris
+											$insert_trx = $wpdb->query("insert into ". $wpdb->prefix ."faspay_order (trx_id,order_id,date_expire,date_trx, total_amount, channel, status, trx_id_cc) values ('".$resp->trx_id."','$order_id','$date_exp', '".$order->order_date."', '".intval($order->order_total)."', '".$this->payment_method."','1', '".$resp->web_url."')");
+											$rootPath = ABSPATH.'wp-content/plugins/woocommerce-gateway-faspay/includes/assets/qris/';
+											$url = $rootPath.$resp->trx_id.'.png';
+								            file_put_contents($url, file_get_contents($resp->web_url));
+										}else{
+											$insert_trx = $wpdb->query("insert into ". $wpdb->prefix ."faspay_order (trx_id,order_id,date_expire,date_trx, total_amount, channel, status) values ('".$resp->trx_id."','$order_id','$date_exp', '".$order->order_date."', '".intval($order->order_total)."', '".$this->payment_method."','1')");
+										}
+										
 										$insert_trx2 = $wpdb->query("insert into ". $wpdb->prefix ."faspay_postdata (order_id,date_trx,total_amount,post_data) values('$order_id','".$order->order_date."','".intval($order->order_total)."','".json_encode($cre)."')");
 										$this->log('Redirect to '.$this->payment_url."?trx_id=".$resp->trx_id."&order_id=".$order_id."&store=".$this->merchantName)."&merchant=".substr($this->merchantCode, 3);
 										
@@ -1111,6 +1120,9 @@ function woocommerce_faspay_init() {
 		$methods[] 	= 'WC_Gateway_faspay_Akulaku';
 		$methods[]	= 'WC_Gateway_faspay_M2u';
 		$methods[]	= 'WC_Gateway_faspay_Ovo';
+		$methods[]	= 'WC_Gateway_faspay_ShoppepayQRIS';
+		$methods[]	= 'WC_Gateway_faspay_ShoppepayApp';
+		$methods[]	= 'WC_Gateway_faspay_Dana';
 
 		for ($i=2; $i <= get_option('faspay_merchant_mid_cc'); $i++) { 
 			$methods[] = 'WC_Gateway_faspay_CreditCard_'.$i;

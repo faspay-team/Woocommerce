@@ -52,6 +52,12 @@ function get_pict($ch){
         case '303':
            echo $url."/wp-content/plugins/woocommerce-gateway-faspay/includes/assets/xl_tunai.png";
             break;
+        case '711':
+           echo $url."/wp-content/plugins/woocommerce-gateway-faspay/includes/assets/shoppepayQRIS.png";
+            break;
+        case '713':
+           echo $url."/wp-content/plugins/woocommerce-gateway-faspay/includes/assets/shoppepayApp.png";
+            break;
         default:
             echo $url."/wp-content/plugins/woocommerce-gateway-faspay/includes/assets/faspay-logo.jpg";
             break;
@@ -627,6 +633,29 @@ function get_guide($ch,$trxid,$merchant,$mid,$currency,$total){
     </div>
     		<?php
     		break;
+        case '711':
+            ?>
+                <button class="accordion" style="display: block;">Pembayaran melalui ShopeePay <i class="fa fa-arrow-down" style="float: right;"></i></button>
+                <div class="panel">
+                    <ol>
+                        <li>Buka aplikasi Shopee</li>
+                        <li>Klik logo “Scan”</li>
+                        <li>Scan QR Code</li>
+                        <li>Klik tombol “Bayar Sekarang”</li>
+                    </ol>
+                </div>
+
+                <button class="accordion" >Pembayaran melalui Mobile Banking atau E-Money lainnya <i class="fa fa-arrow-down" style="float: right;"></i></button>
+                <div class="panel">
+                    <ol>
+                        <li>Buka aplikasi mobile banking atau e-money</li>
+                        <li>Klik logo “Pay” atau “Scan”</li>
+                        <li>Scan QR Code</li>
+                        <li>Klik tombol “Pay” atau “Bayar”</li>
+                    </ol>
+                </div>
+            <?php
+            break;
     	default:
     		# code...
     		break;

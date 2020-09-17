@@ -60,7 +60,7 @@
     top: 30%;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 70px;
+    /*margin-top: 70px;*/
     margin-bottom: 70px;
     transform: translate(-50% -50%);
     box-sizing: border-box;
@@ -238,6 +238,14 @@
     font-size: 10px;
     margin-bottom: -10%;
   }
+  .qrcode{
+    width: auto;
+    height: 20%;
+    position: relative;
+    left: 50%;
+    margin-left: -25%;
+    margin-bottom: 20px;
+  }
 </style>
 <!DOCTYPE html>
 <html>
@@ -254,7 +262,15 @@
 
         <div class="payment">Payment Via:</div>
         <img src="<?php get_pict($ch) ?>" class="bank">
-
+        <br>
+            <?php
+              if ($ch == '711') {
+                $imgurl = get_site_url().'/wp-content/plugins/woocommerce-gateway-faspay/includes/assets/qris/'.$trxid.'.png';            
+            ?>
+                  <img class="qrcode" src=<?= $imgurl ?>
+            <?php
+              }
+            ?>
             <li class="list a">
             <div class="title">VA Number / Kode Bayar</div>
                 <div class="content a">
