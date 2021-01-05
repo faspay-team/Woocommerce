@@ -162,13 +162,13 @@ $response_date= date('Y-m-d H:i:s');
 
 $status = $order->get_status();
 
-if ($status != 'completed') {
+if ($status != 'processing') {
 	switch ($codes) {
 		case '2':
 			if ($sig == $data->signature) {
 				
 				$order->add_order_note(__('Pembayaran telah dilakukan melalui faspay dengan id '.$orderid. ' dan trxid '.$trxid .' pada tanggal '.$paymentdate.'.', 'woocommerce'));
-				$order->update_status('completed', __( 'Payment Success.', 'woocommerce' ));
+				$order->update_status('processing', __( 'Payment Success.', 'woocommerce' ));
 				wc_reduce_stock_levels($orderid);
 				$woocommerce->cart->empty_cart();
 				$updatefp = $wpdb->query("update ". $wpdb->prefix ."faspay_order SET status = '2', payment_reff = '$codes', date_payment = '$paymentdate' WHERE trx_id = '$trxid'");
