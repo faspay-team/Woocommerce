@@ -33,7 +33,7 @@ This plugin will allow secure online payment on your WooCommerce store, without 
 	4. Proceed to step 5 below.
 
 ### Manual Installation
-1. [Download](https://raw.githubusercontent.com/faspay-team/Woocommerce/master/woocommerce-gateway-faspay.zip) the plugin from this repository.
+1. [Download](https://github.com/faspay-team/Woocommerce/raw/master/woocommerce-gateway-faspay.zip) the plugin from this repository.
 2. Extract the plugin, Using an FTP program, or your hosting control panel, upload the unzipped plugin folder to your WordPress installation's `wp-content/plugins/ directory.`
 3. Install & Activate the plugin from the Plugins menu within the WordPress admin panel.
 4. Go to menu __WooCommerce > Settings > Faspay Payment Gateway Global Configuration__ , fill the configuration fields.
