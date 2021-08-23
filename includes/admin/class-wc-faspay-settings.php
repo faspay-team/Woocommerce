@@ -37,7 +37,7 @@ class Faspay_Settings {
 				'title' => 'Faspay ' . __('Global Configuration', 'wc-faspay'),
 				'id' => self::$option_prefix . '_global_settings',
 				'desc' => __('Ini adalah pengaturan global Faspay Payment Gateway. Mohon mengisi form di bawah ini, untuk dapat menggunakan payment channel yang telah tersedia.
-				<br \>  untuk mendapatkan API dan merchant code mohon kontak  <a href="mailto:customercare@faspay.co.id">customercare@faspay.co.id</a>', 'wc-faspay'),
+				', 'wc-faspay'),
 				'type' => 'title',
 				'default' => '',
 			),
